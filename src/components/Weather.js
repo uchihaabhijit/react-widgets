@@ -22,14 +22,16 @@ const Weather = ({options}) => {
         if( selectedTopic.value == 'wf' ) {
             url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${text}&aqi=no`;
         } else if(selectedTopic.value == 'as') {
-            url = `https://api.weatherapi.com/v1/astronomy.json?key=${API_KEY}&q=${text}&dt=2021-06-20`;
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            url = `https://api.weatherapi.com/v1/astronomy.json?key=${API_KEY}&q=${text}&dt=${date}`;
         } else if(selectedTopic.value == 'sp') {
             url = `https://api.weatherapi.com/v1/sports.json?key=${API_KEY}&q=${text}`;
         }
         
         if( text ) {
             const { data } = await axios.get(url, headers);
-            setResults(data.current);
+            setResults(data);
         }
         
     };
@@ -39,12 +41,14 @@ const Weather = ({options}) => {
     }
 
     useEffect(() => {
-
         if( text.length == 0 ) {
             setResults({});
         }
     }, [text]);
 
+    useEffect(() => {
+        setResults({});
+    }, [selectedTopic]);
 
     return (
         <div style={{ padding: '10px 10px 10px 10px' }}>
@@ -68,7 +72,7 @@ const Weather = ({options}) => {
                 </div>
             </div>
 
-            <Card results={results} text={text}/>
+            <Card results={results} selectedTopic={selectedTopic.value} />
         
         </div>
     );
