@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-const Search = () => {
+const WikipediaSearch = () => {
     const [term, setTerm] = useState('');
     const [results, setResults] = useState([]);
 
@@ -73,4 +73,4 @@ const Search = () => {
 }; 
 
 
-export default Search;
+export default WikipediaSearch;
